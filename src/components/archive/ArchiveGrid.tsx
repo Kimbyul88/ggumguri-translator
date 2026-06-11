@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import ArchiveCard from "./ArchiveCard";
 import ScenarioDetailModal from "./ScenarioDetailModal";
+import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 interface ArchiveRow {
   id: string;
@@ -19,6 +21,7 @@ export default function ArchiveGrid() {
   const [favOnly, setFavOnly] = useState(false);
   const [loading, setLoading] = useState(true);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const fetchItems = useCallback(async (search?: string, favorites?: boolean) => {
     setLoading(true);
@@ -40,11 +43,13 @@ export default function ArchiveGrid() {
     fetchItems(query, favOnly);
   };
 
-  const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/scenarios/${id}`, { method: "DELETE" });
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    const res = await fetch(`/api/scenarios/${deleteTarget}`, { method: "DELETE" });
     if (res.ok) {
-      setItems((prev) => prev.filter((item) => item.id !== id));
+      setItems((prev) => prev.filter((item) => item.id !== deleteTarget));
     }
+    setDeleteTarget(null);
   };
 
   const handleToggleFavorite = async (id: string, current: boolean) => {
@@ -65,7 +70,12 @@ export default function ArchiveGrid() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex items-start justify-between"
+      >
         <div>
           <h1 className="text-3xl font-bold mb-2">시나리오 아카이브</h1>
           <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -81,10 +91,15 @@ export default function ArchiveGrid() {
         >
           + 새 시나리오 생성
         </a>
-      </div>
+      </motion.div>
 
       {/* Search + Filter */}
-      <div className="flex gap-3">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="flex gap-3"
+      >
         <div className="flex-1 relative">
           <svg
             className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -129,7 +144,7 @@ export default function ArchiveGrid() {
           </svg>
           즐겨찾기
         </button>
-      </div>
+      </motion.div>
 
       {/* Grid */}
       {loading ? (
@@ -137,42 +152,71 @@ export default function ArchiveGrid() {
           불러오는 중...
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-16 text-gray-400 text-sm">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="text-center py-16 text-gray-400 text-sm"
+        >
           {favOnly
             ? "즐겨찾기한 시나리오가 없습니다"
             : query
               ? "검색 결과가 없습니다"
               : "아직 저장된 시나리오가 없습니다"}
-        </div>
+        </motion.div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {items.map((item) => (
-            <ArchiveCard
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              thumbnailUrl={item.thumbnail_url}
-              isFavorite={item.is_favorite}
-              date={new Date(item.created_at).toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })}
-              onDetail={setDetailId}
-              onDelete={handleDelete}
-              onToggleFavorite={handleToggleFavorite}
-            />
-          ))}
+          <AnimatePresence mode="popLayout">
+            {items.map((item, i) => (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.35, delay: i * 0.06 }}
+              >
+                <ArchiveCard
+                  id={item.id}
+                  title={item.title}
+                  thumbnailUrl={item.thumbnail_url}
+                  isFavorite={item.is_favorite}
+                  date={new Date(item.created_at).toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
+                  onDetail={setDetailId}
+                  onDelete={setDeleteTarget}
+                  onToggleFavorite={handleToggleFavorite}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
 
       {/* Detail Modal */}
-      {detailId && (
-        <ScenarioDetailModal
-          scenarioId={detailId}
-          onClose={() => setDetailId(null)}
-        />
-      )}
+      <AnimatePresence>
+        {detailId && (
+          <ScenarioDetailModal
+            scenarioId={detailId}
+            onClose={() => setDetailId(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirm */}
+      <ConfirmDialog
+        isVisible={!!deleteTarget}
+        title="시나리오를 삭제할까요?"
+        message="삭제하면 되돌릴 수 없습니다."
+        confirmLabel="삭제"
+        cancelLabel="취소"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }

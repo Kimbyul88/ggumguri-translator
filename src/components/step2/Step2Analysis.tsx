@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 import type {
   AnalysisElement,
   ScenarioSettings as Settings,
@@ -38,17 +39,26 @@ export default function Step2Analysis({
   return (
     <section className="relative z-10 max-w-[1200px] mx-auto px-8 space-y-8">
       {/* Header */}
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <p className="text-xs font-semibold text-blue-500 tracking-wide mb-2">
           STEP 02 — 분석 & 선택
         </p>
         <h1 className="text-3xl font-bold">영상 분석</h1>
-      </div>
+      </motion.div>
 
       {/* Video info + Summary side by side */}
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Left: Video thumbnail + meta */}
-        <div className="w-full lg:w-[360px] flex-shrink-0">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="w-full lg:w-[360px] flex-shrink-0"
+        >
           {/* Thumbnail */}
           <a
             href={url}
@@ -68,7 +78,6 @@ export default function Step2Analysis({
             ) : (
               <div className="absolute inset-0 bg-gray-200" />
             )}
-            {/* Play button overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-14 h-14 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-sm">
                 <svg
@@ -82,12 +91,10 @@ export default function Step2Analysis({
             </div>
           </a>
 
-          {/* Title */}
           <h3 className="font-semibold text-base mb-3 leading-snug">
             {videoMeta?.title || "영상 제목"}
           </h3>
 
-          {/* Meta info */}
           <div className="space-y-2 text-sm border-t border-gray-100 pt-3">
             <div className="flex justify-between">
               <span className="text-gray-400">플랫폼</span>
@@ -121,12 +128,17 @@ export default function Step2Analysis({
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Right: Summary + 인기요인분석 */}
         <div className="flex-1 space-y-6">
           {/* 영상 요약 */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-2xl border border-gray-200 bg-white p-6"
+          >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold">영상 요약</h3>
               <span className="text-xs font-bold text-gray-800 bg-gray-100 px-3 py-1 rounded-full flex items-center gap-1.5">
@@ -140,10 +152,15 @@ export default function Step2Analysis({
               </span>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed">{summary}</p>
-          </div>
+          </motion.div>
 
           {/* 인기 요인 분석 */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="rounded-2xl border border-gray-200 bg-white p-6"
+          >
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-bold">인기 요인 분석</h3>
               <span className="text-xs text-gray-400 font-medium">
@@ -156,23 +173,40 @@ export default function Step2Analysis({
               선택하세요.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {elements.map((el) => (
-                <DeconstructionCard
+              {elements.map((el, i) => (
+                <motion.div
                   key={el.id}
-                  element={el}
-                  onToggle={onToggleElement}
-                />
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.45 + i * 0.05 }}
+                >
+                  <DeconstructionCard
+                    element={el}
+                    onToggle={onToggleElement}
+                  />
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Scenario settings */}
-      <ScenarioSettings settings={settings} onChange={onSettingsChange} />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
+        <ScenarioSettings settings={settings} onChange={onSettingsChange} />
+      </motion.div>
 
       {/* Bottom bar */}
-      <div className="flex items-center justify-between pt-2 pb-4">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.75 }}
+        className="flex items-center justify-between pt-2 pb-4"
+      >
         <p className="text-sm text-gray-500">
           카피 요소{" "}
           <span className="text-blue-500 font-bold">{selectedCount}개</span>{" "}
@@ -193,7 +227,7 @@ export default function Step2Analysis({
             시나리오 생성하기 →
           </button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

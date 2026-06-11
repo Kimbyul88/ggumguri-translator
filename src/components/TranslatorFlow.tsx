@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslatorFlow } from "@/hooks/useTranslatorFlow";
 import StepIndicator from "@/components/layout/StepIndicator";
 import Footer from "@/components/layout/Footer";
 import DecoElements from "@/components/layout/DecoElements";
 import LoadingOverlay from "@/components/common/LoadingOverlay";
+import SuccessDialog from "@/components/common/SuccessDialog";
 import Step1Reference from "@/components/step1/Step1Reference";
 import Step2Analysis from "@/components/step2/Step2Analysis";
 import Step3Scenario from "@/components/step3/Step3Scenario";
@@ -29,10 +31,18 @@ export default function TranslatorFlow() {
     goToStep,
   } = useTranslatorFlow();
 
+  const [showSuccess, setShowSuccess] = useState(false);
+
   return (
     <>
       <DecoElements />
       <LoadingOverlay isVisible={isLoading} message={loadingMessage} />
+      <SuccessDialog
+        isVisible={showSuccess}
+        title="저장 완료!"
+        message="시나리오가 아카이브에 저장되었습니다."
+        onClose={() => setShowSuccess(false)}
+      />
 
       <StepIndicator currentStep={step} />
 
@@ -68,7 +78,7 @@ export default function TranslatorFlow() {
             onSave={async (selectedIds) => {
               const id = await saveScenarios(selectedIds);
               if (id) {
-                alert("저장되었습니다!");
+                setShowSuccess(true);
               }
             }}
             onRegenerate={() => goToStep(2)}

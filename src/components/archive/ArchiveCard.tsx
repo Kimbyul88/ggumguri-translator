@@ -45,9 +45,7 @@ export default function ArchiveCard({
 
       {/* Delete button - top left, visible on hover */}
       <button
-        onClick={() => {
-          if (confirm("이 시나리오를 삭제할까요?")) onDelete(id);
-        }}
+        onClick={() => onDelete(id)}
         className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 hover:bg-red-50 transition-all"
       >
         <svg

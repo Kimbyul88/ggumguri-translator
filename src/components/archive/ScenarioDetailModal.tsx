@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { motion } from "framer-motion";
 import Toast from "@/components/common/Toast";
 
 interface ScenarioScene {
@@ -79,11 +80,23 @@ export default function ScenarioDetailModal({
   }, [onClose]);
 
   return createPortal(
-    <div className="fixed inset-0 z-[100]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[100]"
+    >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       <div className="relative z-10 flex items-center justify-center min-h-full p-4 pointer-events-none">
-        <div className="bg-white rounded-2xl shadow-xl max-w-[900px] w-full max-h-[85vh] overflow-hidden my-auto pointer-events-auto">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="bg-white rounded-2xl shadow-xl max-w-[900px] w-full max-h-[85vh] overflow-hidden my-auto pointer-events-auto"
+        >
           <div className="max-h-[85vh] overflow-y-auto modal-scroll">
         {loading ? (
           <div className="p-12 text-center text-gray-400">불러오는 중...</div>
@@ -185,11 +198,11 @@ export default function ScenarioDetailModal({
           </>
         )}
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <Toast message="프롬프트가 복사되었습니다" isVisible={showToast} onClose={() => setShowToast(false)} />
-    </div>,
+    </motion.div>,
     document.body,
   );
 }

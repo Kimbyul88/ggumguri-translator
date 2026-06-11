@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import type { Scenario } from "@/types";
 import ScenarioCard from "./ScenarioCard";
 import Toast from "@/components/common/Toast";
@@ -55,7 +56,12 @@ export default function Step3Scenario({
   return (
     <section className="relative z-10 max-w-[1200px] mx-auto px-8 space-y-8">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex items-start justify-between"
+      >
         <div>
           <p className="text-xs font-semibold text-blue-500 tracking-wide mb-2">
             STEP 03 — 결과
@@ -73,23 +79,34 @@ export default function Step3Scenario({
         >
           ← 설정 수정
         </button>
-      </div>
+      </motion.div>
 
       {/* Scenario cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {scenarios.map((scenario) => (
-          <ScenarioCard
+        {scenarios.map((scenario, i) => (
+          <motion.div
             key={scenario.id}
-            scenario={scenario}
-            onCopyPrompt={handleCopyPrompt}
-            onSelect={toggleSelect}
-            isSelected={selectedIds.has(scenario.id)}
-          />
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 + i * 0.12, ease: "easeOut" }}
+          >
+            <ScenarioCard
+              scenario={scenario}
+              onCopyPrompt={handleCopyPrompt}
+              onSelect={toggleSelect}
+              isSelected={selectedIds.has(scenario.id)}
+            />
+          </motion.div>
         ))}
       </div>
 
       {/* Bottom actions */}
-      <div className="flex items-center justify-between pt-2 pb-4">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.15 + scenarios.length * 0.12 + 0.1 }}
+        className="flex items-center justify-between pt-2 pb-4"
+      >
         <p className="text-sm text-gray-500">
           {selectedIds.size > 0 ? (
             <>
@@ -114,7 +131,7 @@ export default function Step3Scenario({
             저장하기
           </button>
         </div>
-      </div>
+      </motion.div>
       <Toast message={toastMessage} isVisible={showToast} onClose={() => setShowToast(false)} />
     </section>
   );

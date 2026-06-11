@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import type { Step } from "@/types";
 
 interface StepIndicatorProps {
@@ -16,39 +19,52 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
       {steps.map((step, i) => {
         const isActive = step.num === currentStep;
         const isPast = step.num < currentStep;
+        const isFilled = isPast || isActive;
 
         return (
           <div key={step.num} className="flex items-center">
+            {/* Connecting line */}
             {i > 0 && (
-              <div
-                className={`w-16 h-[2px] ${
-                  isPast || isActive ? "bg-blue-500" : "bg-gray-200"
-                }`}
-              />
+              <div className="w-16 h-[2px] bg-gray-200 relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-blue-500"
+                  initial={{ width: "0%" }}
+                  animate={{ width: isFilled ? "100%" : "0%" }}
+                  transition={{ duration: 0.4, delay: isFilled ? 0.2 : 0, ease: "easeOut" }}
+                />
+              </div>
             )}
+
             <div className="flex items-center gap-2">
-              <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                  isActive
-                    ? "bg-blue-500 text-white"
-                    : isPast
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-400"
-                }`}
+              {/* Circle */}
+              <motion.div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                initial={false}
+                animate={{
+                  backgroundColor: isFilled ? "#3b82f6" : "#e5e7eb",
+                  color: isFilled ? "#ffffff" : "#9ca3af",
+                  scale: isActive ? [1, 1.2, 1] : 1,
+                }}
+                transition={{
+                  duration: 0.3,
+                  scale: { duration: 0.4, ease: "easeOut" },
+                }}
               >
                 {step.num}
-              </div>
-              <span
-                className={`text-sm whitespace-nowrap ${
-                  isActive
-                    ? "text-blue-500 font-semibold"
-                    : isPast
-                      ? "text-gray-900 font-medium"
-                      : "text-gray-400"
-                }`}
+              </motion.div>
+
+              {/* Label */}
+              <motion.span
+                className="text-sm whitespace-nowrap"
+                initial={false}
+                animate={{
+                  color: isActive ? "#3b82f6" : isPast ? "#111827" : "#9ca3af",
+                  fontWeight: isActive ? 600 : isPast ? 500 : 400,
+                }}
+                transition={{ duration: 0.3 }}
               >
                 {step.label}
-              </span>
+              </motion.span>
             </div>
           </div>
         );
