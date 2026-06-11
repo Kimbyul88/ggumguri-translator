@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Toast from "@/components/common/Toast";
 
 interface ScenarioScene {
@@ -77,11 +78,13 @@ export default function ScenarioDetailModal({
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+  return createPortal(
+    <div className="fixed inset-0 z-[100]">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative z-10 bg-white rounded-2xl shadow-xl max-w-[900px] w-full mx-4 max-h-[85vh] overflow-y-auto">
+      <div className="relative z-10 flex items-center justify-center min-h-full p-4 pointer-events-none">
+        <div className="bg-white rounded-2xl shadow-xl max-w-[900px] w-full max-h-[85vh] overflow-hidden my-auto pointer-events-auto">
+          <div className="max-h-[85vh] overflow-y-auto modal-scroll">
         {loading ? (
           <div className="p-12 text-center text-gray-400">불러오는 중...</div>
         ) : !detail ? (
@@ -181,9 +184,12 @@ export default function ScenarioDetailModal({
             )}
           </>
         )}
+          </div>
+        </div>
       </div>
 
       <Toast message="프롬프트가 복사되었습니다" isVisible={showToast} onClose={() => setShowToast(false)} />
-    </div>
+    </div>,
+    document.body,
   );
 }
