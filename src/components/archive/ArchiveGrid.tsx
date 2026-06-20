@@ -74,10 +74,10 @@ export default function ArchiveGrid() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex items-start justify-between"
+        className="flex flex-col sm:flex-row items-start justify-between gap-3"
       >
         <div>
-          <h1 className="text-3xl font-bold mb-2">시나리오 아카이브</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">시나리오 아카이브</h1>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
@@ -98,7 +98,7 @@ export default function ArchiveGrid() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="flex gap-3"
+        className="flex flex-col sm:flex-row gap-3"
       >
         <div className="flex-1 relative">
           <svg
@@ -119,6 +119,7 @@ export default function ArchiveGrid() {
             className="w-full rounded-xl border border-gray-200 pl-10 pr-4 py-3 text-sm placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
         </div>
+        <div className="flex gap-3">
         <button
           onClick={handleSearch}
           className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-600 hover:border-gray-300 transition-colors"
@@ -144,6 +145,7 @@ export default function ArchiveGrid() {
           </svg>
           즐겨찾기
         </button>
+        </div>
       </motion.div>
 
       {/* Grid */}
@@ -165,7 +167,7 @@ export default function ArchiveGrid() {
               : "아직 저장된 시나리오가 없습니다"}
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           <AnimatePresence mode="popLayout">
             {items.map((item, i) => (
               <motion.div

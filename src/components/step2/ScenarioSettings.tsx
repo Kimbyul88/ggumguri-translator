@@ -20,10 +20,10 @@ export default function ScenarioSettings({
   const climateRatio = 100 - settings.messageRatio;
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6">
-      <h3 className="text-lg font-bold mb-6">시나리오 설정</h3>
+    <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+      <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6">시나리오 설정</h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
         {/* Protagonist */}
         <div>
           <div className="flex items-center gap-2 mb-3">

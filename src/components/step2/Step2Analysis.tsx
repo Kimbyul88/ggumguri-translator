@@ -37,7 +37,7 @@ export default function Step2Analysis({
   const isShorts = url.includes("/shorts/");
 
   return (
-    <section className="relative z-10 max-w-[1200px] mx-auto px-8 space-y-8">
+    <section className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-8 space-y-6 sm:space-y-8">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -47,7 +47,9 @@ export default function Step2Analysis({
         <p className="text-xs font-semibold text-blue-500 tracking-wide mb-2">
           STEP 02 — 분석 & 선택
         </p>
-        <h1 className="text-3xl font-bold">영상 분석</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          영상 분석
+        </h1>
       </motion.div>
 
       {/* Video info + Summary side by side */}
@@ -57,15 +59,16 @@ export default function Step2Analysis({
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="w-full lg:w-[360px] flex-shrink-0"
+          className="w-full lg:w-[360px] shrink-0"
         >
           {/* Thumbnail */}
           <a
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block relative rounded-2xl overflow-hidden bg-gray-100 mb-4"
-            style={{ aspectRatio: isShorts ? "9/12" : "16/9" }}
+            className={`block relative rounded-2xl overflow-hidden bg-gray-100 mb-4 ${
+              isShorts ? "aspect-[16/9] lg:aspect-[9/12]" : "aspect-[16/9]"
+            }`}
           >
             {videoMeta?.thumbnailUrl ? (
               <Image
@@ -137,10 +140,10 @@ export default function Step2Analysis({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="rounded-2xl border border-gray-200 bg-white p-6"
+            className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6"
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold">영상 요약</h3>
+              <h3 className="text-base sm:text-lg font-bold">영상 요약</h3>
               <span className="text-xs font-bold text-gray-800 bg-gray-100 px-3 py-1 rounded-full flex items-center gap-1.5">
                 <Image
                   src="/image/ChatGPT-Logo.svg.png"
@@ -159,10 +162,10 @@ export default function Step2Analysis({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="rounded-2xl border border-gray-200 bg-white p-6"
+            className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6"
           >
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-lg font-bold">인기 요인 분석</h3>
+              <h3 className="text-base sm:text-lg font-bold">인기 요인 분석</h3>
               <span className="text-xs text-gray-400 font-medium">
                 {elements.length}개 추출
               </span>
@@ -180,10 +183,7 @@ export default function Step2Analysis({
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: 0.45 + i * 0.05 }}
                 >
-                  <DeconstructionCard
-                    element={el}
-                    onToggle={onToggleElement}
-                  />
+                  <DeconstructionCard element={el} onToggle={onToggleElement} />
                 </motion.div>
               ))}
             </div>
@@ -205,24 +205,24 @@ export default function Step2Analysis({
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.75 }}
-        className="flex items-center justify-between pt-2 pb-4"
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 pb-4"
       >
         <p className="text-sm text-gray-500">
           카피 요소{" "}
           <span className="text-blue-500 font-bold">{selectedCount}개</span>{" "}
           선택됨
         </p>
-        <div className="flex gap-3">
+        <div className="flex gap-3 w-full sm:w-auto">
           <button
             onClick={onBack}
-            className="rounded-xl border-2 border-gray-200 px-6 py-3 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors"
+            className="flex-1 sm:flex-none rounded-xl border-2 border-gray-200 px-6 py-3 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors"
           >
             ← 이전
           </button>
           <button
             onClick={onGenerate}
             disabled={selectedCount === 0}
-            className="rounded-xl bg-blue-500 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 sm:flex-none rounded-xl bg-blue-500 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             시나리오 생성하기 →
           </button>

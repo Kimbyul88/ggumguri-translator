@@ -47,7 +47,7 @@ export default function TranslatorFlow() {
       <StepIndicator currentStep={step} />
 
       {error && (
-        <div className="relative z-10 max-w-[1200px] mx-auto px-8 mb-4">
+        <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-8 mb-4">
           <div className="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
             {error}
           </div>

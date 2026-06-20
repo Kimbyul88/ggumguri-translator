@@ -8,7 +8,7 @@ export default function ArchivePage() {
     <div className="flex flex-col min-h-screen bg-white">
       <Header showArchiveActive />
       <DecoElements />
-      <main className="relative z-10 flex-1 max-w-[1200px] mx-auto w-full px-8 py-8">
+      <main className="relative z-10 flex-1 max-w-[1200px] mx-auto w-full px-4 sm:px-8 py-6 sm:py-8">
         <ArchiveGrid />
       </main>
       <Footer />

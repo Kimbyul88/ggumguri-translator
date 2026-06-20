@@ -10,8 +10,8 @@ interface Step1ReferenceProps {
 
 export default function Step1Reference({ onSubmit }: Step1ReferenceProps) {
   return (
-    <section className="relative z-10 max-w-[1200px] mx-auto px-8">
-      <div className="flex items-start justify-between gap-8">
+    <section className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-8">
+      <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
         {/* Left content */}
         <div className="flex-1 max-w-[600px] pt-4">
           <motion.p
@@ -26,7 +26,11 @@ export default function Step1Reference({ onSubmit }: Step1ReferenceProps) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl font-bold leading-tight mb-4"
+            className="text-2xl sm:text-4xl font-bold leading-tight mb-4"
+            style={{
+              //  fontFamily: "YangGothic",
+              letterSpacing: "-1px",
+            }}
           >
             요즘 콘텐츠를
             <br />
@@ -38,12 +42,11 @@ export default function Step1Reference({ onSubmit }: Step1ReferenceProps) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-gray-500 text-base mb-8 leading-relaxed"
+            className="text-gray-500 text-sm sm:text-base mb-8 leading-relaxed"
           >
             YouTube 쇼츠 URL을 붙여넣으면{" "}
             <span className="font-semibold text-gray-700">Chat GPT</span>가
-            영상을 분석하고,
-            <br />
+            영상을 분석하고,{" "}
             <span className="font-semibold text-gray-700">Claude</span>가 껌구리
             시나리오로 옮겨 써요.
           </motion.p>
@@ -61,7 +64,7 @@ export default function Step1Reference({ onSubmit }: Step1ReferenceProps) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-          className="hidden lg:block flex-shrink-0 w-[340px] h-[400px] relative"
+          className="shrink-0 relative mx-auto lg:mx-0 w-[160px] h-[200px] lg:w-[340px] lg:h-[400px]"
         >
           <Image
             src="/image/ggumguri_basic.png"

@@ -34,7 +34,7 @@ export default function DeconstructionCard({
           )}
         </div>
         <div>
-          <p className={`text-xs font-bold mb-1 ${element.categoryColor}`}>
+          <p className={`text-sm font-extrabold mb-1 ${element.categoryColor}`}>
             {element.category}
           </p>
           <p className="text-sm text-gray-700 leading-relaxed">

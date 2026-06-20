@@ -25,11 +25,11 @@ export default function ArchiveCard({
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group">
       {/* Favorite button - top right */}
       <button
-        onClick={() => onToggleFavorite(id, isFavorite)}
-        className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); onToggleFavorite(id, isFavorite); }}
+        className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-colors"
       >
         <svg
-          className={`w-4 h-4 ${isFavorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`}
+          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isFavorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`}
           viewBox="0 0 24 24"
           fill={isFavorite ? "currentColor" : "none"}
           stroke="currentColor"
@@ -45,11 +45,11 @@ export default function ArchiveCard({
 
       {/* Delete button - top left, visible on hover */}
       <button
-        onClick={() => onDelete(id)}
-        className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 hover:bg-red-50 transition-all"
+        onClick={(e) => { e.stopPropagation(); onDelete(id); }}
+        className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 hover:bg-red-50 transition-all"
       >
         <svg
-          className="w-4 h-4 text-red-400"
+          className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -63,23 +63,33 @@ export default function ArchiveCard({
         </svg>
       </button>
 
-      {/* Thumbnail */}
-      <div className="aspect-[5/3] bg-gray-100 relative overflow-hidden">
-        {thumbnailUrl ? (
-          <Image
-            src={thumbnailUrl}
-            alt={title}
-            fill
-            className="object-cover"
-            unoptimized
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-gray-100" />
-        )}
-      </div>
+      {/* Thumbnail - tappable on mobile to open detail */}
+      <button
+        type="button"
+        onClick={() => onDetail(id)}
+        className="w-full sm:pointer-events-none"
+      >
+        <div className="aspect-square sm:aspect-[5/3] bg-gray-100 relative overflow-hidden">
+          {thumbnailUrl ? (
+            <Image
+              src={thumbnailUrl}
+              alt={title}
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-gray-100" />
+          )}
+        </div>
+        {/* Mobile: title overlay */}
+        <div className="sm:hidden px-2 py-2">
+          <p className="text-xs font-medium text-gray-700 line-clamp-2 text-left">{title}</p>
+        </div>
+      </button>
 
-      {/* Content */}
-      <div className="p-5">
+      {/* Content - hidden on mobile */}
+      <div className="hidden sm:block p-5">
         <h3 className="font-semibold text-lg leading-snug mb-4 line-clamp-2 min-h-[3rem]">
           {title}
         </h3>

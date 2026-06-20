@@ -15,7 +15,7 @@ const steps = [
 
 export default function StepIndicator({ currentStep }: StepIndicatorProps) {
   return (
-    <nav className="flex items-center justify-center gap-0 py-6">
+    <nav className="flex items-center justify-center gap-0 py-4 sm:py-6 px-4">
       {steps.map((step, i) => {
         const isActive = step.num === currentStep;
         const isPast = step.num < currentStep;
@@ -25,7 +25,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
           <div key={step.num} className="flex items-center">
             {/* Connecting line */}
             {i > 0 && (
-              <div className="w-16 h-[2px] bg-gray-200 relative overflow-hidden">
+              <div className="w-8 sm:w-16 h-[2px] bg-gray-200 relative overflow-hidden">
                 <motion.div
                   className="absolute inset-y-0 left-0 bg-blue-500"
                   initial={{ width: "0%" }}
@@ -35,10 +35,10 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
               </div>
             )}
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {/* Circle */}
               <motion.div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold"
                 initial={false}
                 animate={{
                   backgroundColor: isFilled ? "#3b82f6" : "#e5e7eb",
@@ -55,7 +55,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
 
               {/* Label */}
               <motion.span
-                className="text-sm whitespace-nowrap"
+                className="text-xs sm:text-sm whitespace-nowrap hidden sm:inline"
                 initial={false}
                 animate={{
                   color: isActive ? "#3b82f6" : isPast ? "#111827" : "#9ca3af",

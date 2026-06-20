@@ -89,15 +89,15 @@ export default function ScenarioDetailModal({
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative z-10 flex items-center justify-center min-h-full p-4 pointer-events-none">
+      <div className="relative z-10 flex items-center justify-center min-h-full p-2 sm:p-4 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="bg-white rounded-2xl shadow-xl max-w-[900px] w-full max-h-[85vh] overflow-hidden my-auto pointer-events-auto"
+          className="bg-white rounded-2xl shadow-xl max-w-[900px] w-full max-h-[90vh] sm:max-h-[85vh] overflow-hidden my-auto pointer-events-auto"
         >
-          <div className="max-h-[85vh] overflow-y-auto modal-scroll">
+          <div className="max-h-[90vh] sm:max-h-[85vh] overflow-y-auto modal-scroll">
         {loading ? (
           <div className="p-12 text-center text-gray-400">불러오는 중...</div>
         ) : !detail ? (
@@ -105,7 +105,7 @@ export default function ScenarioDetailModal({
         ) : (
           <>
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between rounded-t-2xl">
               <div>
                 <h2 className="text-lg font-bold">{detail.title}</h2>
                 <p className="text-xs text-gray-400 mt-0.5">
@@ -124,7 +124,7 @@ export default function ScenarioDetailModal({
 
             {/* Summary */}
             {detail.summary && (
-              <div className="px-6 pt-5">
+              <div className="px-4 sm:px-6 pt-4 sm:pt-5">
                 <h3 className="text-sm font-semibold text-gray-500 mb-2">영상 요약</h3>
                 <p className="text-sm text-gray-600 leading-relaxed bg-gray-50 rounded-xl p-4">
                   {detail.summary}
@@ -133,7 +133,7 @@ export default function ScenarioDetailModal({
             )}
 
             {/* Scenarios */}
-            <div className="p-6 space-y-5">
+            <div className="p-4 sm:p-6 space-y-5">
               <h3 className="text-sm font-semibold text-gray-500">시나리오</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {detail.scenarios.map((scenario, idx) => (
@@ -184,7 +184,7 @@ export default function ScenarioDetailModal({
 
             {/* Reference URL */}
             {detail.reference_url && (
-              <div className="px-6 pb-6">
+              <div className="px-4 sm:px-6 pb-6">
                 <a
                   href={detail.reference_url}
                   target="_blank"
